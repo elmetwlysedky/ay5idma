@@ -275,7 +275,7 @@ class OrderService
         $clientNotificationTitleMessage = $type;
         $clientMailable = new CreateOrderClientMail($order, $order->user);
 
-        $this->orderNotification($order, $vendorTitleNotificationMessage, $clientMailable, $clientNotificationTitleMessage);
+        // $this->orderNotification($order, $vendorTitleNotificationMessage, $clientMailable, $clientNotificationTitleMessage);
 
         return $order;
     }

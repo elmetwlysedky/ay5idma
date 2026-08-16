@@ -23,6 +23,7 @@ class AuthService
     public function registerFromRequest(Request $request, $user = null)
     {
         if (!$user) {
+            
             $user = new User();
             $user->phone_verify = code($numbers = 4, $type = 'digits');
         }

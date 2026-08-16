@@ -24,6 +24,7 @@ Route::prefix('v1')->attribute('namespace', 'Api')->group(function () {
     Route::get('/vendors', ['uses' => 'VendorsController@index', 'as' => 'api.vendors.index']);
     Route::get('/shipmentModelData', ['uses' => 'ShipmentsController@getModelData', 'as' => 'api.shipment.ModelData']);
     Route::get('/user/types', ['uses' => 'UsersController@types', 'as' => 'api.users.types']);
+
 });
 
 // Non-Logged in users API's
@@ -45,7 +46,8 @@ Route::prefix('v1')->attribute('namespace', 'Api')->group(function () {
     Route::get('/products/{product}/reviews', ['uses' => 'ProductReviewsController@index', 'as' => 'api.product.reviews']);
     Route::get('/account/balance', ['uses' => 'TransactionController@balance', 'as' => 'api.account.balance']);
     Route::get('/time-slots', ['uses' => 'ShipmentsController@timeSlots', 'as' => 'api.order.time.slot']);
-});
+
+    });
 
 // Only Logged in users API
 Route::prefix('v1')->attribute('namespace', 'Api')->middleware('auth:api')->group(function () {

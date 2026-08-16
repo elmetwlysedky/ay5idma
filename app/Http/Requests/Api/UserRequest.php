@@ -26,8 +26,8 @@ class UserRequest extends FormRequest
         return [
             'first_name' => 'required|min:2|max:45',
             'last_name'  => 'required|min:2|max:45',
-            'email'       => 'nullable|email|min:2|max:100|unique:users,email,'.auth()->user()->id(),
-            'phone'       => 'required|regex:/(0)[0-9\s-]{10}/|unique:users,phone,'.auth()->user()->id,
+            'email'      => 'nullable|email|min:2|max:100|unique:users,email,'.auth()->user()->id(),
+            'phone'      => 'required|regex:/(0)[0-9\s-]{10}/|unique:users,phone,'.auth()->user()->id,
             'gender'     => 'required',
         ];
     }

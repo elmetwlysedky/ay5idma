@@ -14,7 +14,7 @@ $factory->define(Branch::class, function (Faker $faker) {
         'lat'       => $faker->latitude,
         'lng'       => $faker->longitude,
         'active'    => $faker->boolean,
-        'type'    => $faker->randomElement(BranchTypes::getTypeValue()),
+        // 'type'    => $faker->randomElement(BranchTypes::getTypeValue()),
     ];
 
     foreach (Config::get('app.locales') as $lang => $language) {

@@ -33,7 +33,9 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request, NotificationService $notificationService)
     {
+
         $user = $this->authService->registerFromRequest($request);
+
         $sms = $notificationService->sendSMS($user, $user->phone_verify);
 
         return response()->json([$user, $sms]);
@@ -41,6 +43,7 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
+
         $clientId = config('services.passport.client_id');
         $clientSecret = config('services.passport.client_secret');
 

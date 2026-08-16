@@ -13,7 +13,7 @@ $factory->define(Vendor::class, function (Faker $faker) {
         'activity_id' => $faker->randomElement($activities)->id ,
         'logo' => $faker->imageUrl(),
         'active'    => $faker->boolean,
-        'type'    => $faker->randomElement(VendorTypes::getTypeValue()),
+        // 'type'    => $faker->randomElement(VendorTypes::getTypeValue()),
     ];
 
     foreach (Config::get('app.locales') as $lang => $language) {
