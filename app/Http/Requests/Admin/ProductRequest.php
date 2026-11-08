@@ -23,13 +23,13 @@ class ProductRequest extends FormRequest
      */
     public function rules()
     {
- 
+
         $rules = [
             "category_id" => "required",
             'icon' => 'required',
             "code" => "required|unique:products,code,NULL,id,deleted_at,NULL",
             "unit_id" => "required",
-            "images" => "required",
+            // "images" => "required",
             "images.*" => "required",
             "per_kilogram" => "required",
         ];
@@ -59,5 +59,5 @@ class ProductRequest extends FormRequest
 
         return $rules ;
     }
-    
+
 }

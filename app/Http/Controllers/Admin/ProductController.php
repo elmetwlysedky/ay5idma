@@ -69,13 +69,12 @@ class ProductController extends BaseController
      */
   public function store(ProductRequest $request)
 {
-  
 
-    $product = $this->productService->fillFromRequest($request);
-return redirect()
-        ->route('admin.products.index')
+
+        $this->productService->fillFromRequest($request);
+        return redirect(route('admin.products.index'))
         ->with('success', trans('item_created_successfully'));
-    
+
 }
 
     /**
@@ -100,14 +99,15 @@ return redirect()
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update(ProductRequest $request, Product $product)
-    {dd(
-        $request->all(),
-        $request->allFiles(),
-        $request->file('icon'),
-        $request->file('images'),
-        $request->hasFile('icon'),
-        $request->hasFile('images')
-    );
+    {
+    //     dd(
+    //     $request->all(),
+    //     $request->allFiles(),
+    //     $request->file('icon'),
+    //     $request->file('images'),
+    //     $request->hasFile('icon'),
+    //     $request->hasFile('images')
+    // );
         $product = $this->productService->fillFromRequest($request, $product);
 
         return redirect(route("admin.products.index"))->with('success', trans('item_updated_successfully'));

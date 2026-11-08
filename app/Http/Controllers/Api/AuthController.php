@@ -51,27 +51,28 @@ class AuthController extends Controller
             return $this->issuePassportToken($request, $clientId, $clientSecret);
         }
 
-        if (!$this->authService->attempt($request)) {
-            return response()->json(['error' => trans('invalid_credentials')], Response::HTTP_UNAUTHORIZED);
+        // if (!$this->authService->attempt($request)) {
+        //     return response()->json(['error' => trans('invalid_credentials')], Response::HTTP_UNAUTHORIZED);
+        // }
+
+        // /** @var User $user */
+        // $user = auth()->user();
+        // $tokenResult = $user->createToken('User Personal Token #' . $user->id);
+
+        // if (!$user->token || $user->token_expires_at < Carbon::now()) {
+        //     $user->token = $tokenResult->accessToken;
+        //     $user->token_expires_at = $tokenResult->token->expires_at;
+        //     $user->save();
+        // }
+
+        // return response()->json([
+        //     'token_type'    => 'Bearer',
+        //     'access_token'  => $tokenResult->accessToken,
+        //     'refresh_token' => $request->refresh_token,
+        //     'expires_at'    => $tokenResult->token->expires_at,
+        //     'user'          => $user,
+        // ]);
         }
-
-        /** @var User $user */
-        $user = auth()->user();
-        $tokenResult = $user->createToken('User Personal Token #' . $user->id);
-
-        if (!$user->token || $user->token_expires_at < Carbon::now()) {
-            $user->token = $tokenResult->accessToken;
-            $user->token_expires_at = $tokenResult->token->expires_at;
-            $user->save();
-        }
-
-        return response()->json([
-            'token_type'   => 'Bearer',
-            'access_token' => $tokenResult->accessToken,
-            'expires_at'   => $tokenResult->token->expires_at,
-            'user'         => $user,
-        ]);
-    }
 
     protected function issuePassportToken(LoginRequest $request, $clientId, $clientSecret)
     {
@@ -89,10 +90,21 @@ class AuthController extends Controller
                 ],
             ]);
 
-            return response()->json(json_decode((string) $response->getBody(), true));
-        } catch (ClientException $exception) {
-            return response()->json(['error' => trans('invalid_credentials')], Response::HTTP_UNAUTHORIZED);
-        }
+           $data = json_decode((string) $response->getBody(), true);
+
+        $user = User::where('email', $request->input('email'))->first();
+
+        return response()->json([
+            'token_type'    => $data['token_type'],
+            'access_token'  => $data['access_token'],
+            'refresh_token' => $data['refresh_token'],
+            'expires_in'    => $data['expires_in'],
+            'user'          => $user,
+        ]);
+
+    } catch (ClientException $exception) {
+        return response()->json(['error' => trans('invalid_credentials')], Response::HTTP_UNAUTHORIZED);
+    }
     }
 
     public function logout(Request $request)
@@ -129,4 +141,27 @@ class AuthController extends Controller
     {
         return $this->authService->passwordUpdate($request) ;
     }
+
+    public function refresh(Request $request)
+{
+    $clientId = config('services.passport.client_id');
+    $clientSecret = config('services.passport.client_secret');
+
+    $response = Http::asForm()->post(url('/oauth/token'), [
+        'grant_type' => 'refresh_token',
+        'refresh_token' => $request->refresh_token,
+        'client_id' => $clientId,
+        'client_secret' => $clientSecret,
+    ]);
+
+
+    if ($response->failed()) {
+        return response()->json([
+            'error' => 'Invalid refresh token'
+        ], 401);
+    }
+
+    return response()->json($response->json());}
+
+
 }

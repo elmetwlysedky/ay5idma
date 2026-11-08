@@ -114,7 +114,7 @@
                                         <input type="file" name="icon" >
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label for="meta_keyword">{{trans('images')}} *</label>
+                                        <label for="images">{{trans('images')}} *</label>
                                         <input type="file" name="images[]" multiple>
                                     </div>
                                     <div class="form-group col-md-3">

@@ -16,6 +16,8 @@ Route::prefix('{lang?}')->attribute('namespace', 'Web')->group(function () {
     Route::get('/', function () {
         return redirect(route('web.auth.login'));
     });
+
+
     Route::post('/attempt', ['uses' => 'AuthController@attempt', 'as' => 'web.auth.attempt']);
     Route::get('/logout', ['uses' => 'AuthController@logout', 'as' => 'web.auth.logout']);
     Route::get('/login', ['uses' => 'AuthController@login', 'as' => 'web.auth.login']);
